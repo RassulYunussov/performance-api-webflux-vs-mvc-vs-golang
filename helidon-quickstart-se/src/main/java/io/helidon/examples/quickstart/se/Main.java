@@ -1,37 +1,21 @@
 
 package io.helidon.examples.quickstart.se;
 
+import io.helidon.common.GenericType;
 import io.helidon.logging.common.LogConfig;
 import io.helidon.config.Config;
 import io.helidon.webclient.api.WebClient;
 import io.helidon.webserver.WebServer;
 import io.helidon.webserver.http.HttpRouting;
+
 import java.math.BigDecimal;
 import java.util.List;
 
 public class Main {
 
-    public static class MessagePackage {
-        public List<Product> getProducts() {
-            return products;
-        }
-
-        public void setProducts(List<Product> products) {
-            this.products = products;
-        }
-
-        public MessagePackage() {
-        }
-
-        public MessagePackage(List<Product> products) {
-            this.products = products;
-        }
-
-        private List<Product> products;
-    }
     private static final String DELAY_QUERY_PARAMETER = "delay";
 
-    private static final MessagePackage messagePackage;
+    private static final List<Product> products;
     private static final WebClient webClient = WebClient.builder()
             .baseUri("http://localhost:8084")
             .build();
@@ -43,7 +27,7 @@ public class Main {
         Product p3 = new Product(3, "Onion", "Onion Rings", new BigDecimal(5.25));
         Product p4 = new Product(4, "Egg", "Fresh eggs", new BigDecimal(2.75));
         Product p5 = new Product(5, "Coffee", "Black Coffee", new BigDecimal(3.20));
-        messagePackage = new MessagePackage(List.of(p1, p2, p3, p4, p5));
+        products = List.of(p1, p2, p3, p4, p5);
     }
 
     private Main() {
@@ -75,14 +59,15 @@ public class Main {
                     final var delayString = req.query().get(DELAY_QUERY_PARAMETER);
                     final var delayInt = Integer.parseInt(delayString);
                     Thread.sleep(delayInt);
-                    res.send(messagePackage);
+                    res.send(products);
                 })
                 .get("/performance-helidon", (req, res) -> {
                     final var delayString = req.query().get(DELAY_QUERY_PARAMETER);
                     final var response = webClient.get()
                             .path("/product")
                             .queryParam(DELAY_QUERY_PARAMETER, delayString)
-                            .requestEntity(MessagePackage.class);
+                            .request()
+                            .entity().as(new GenericType<List<Product>>() {});
                     res.send(response);
                 });
     }
