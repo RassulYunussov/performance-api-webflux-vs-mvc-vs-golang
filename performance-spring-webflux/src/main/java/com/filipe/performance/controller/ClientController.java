@@ -20,7 +20,7 @@ public class ClientController {
     @GetMapping(value = "/performance-webflux")
     public Flux<Product> getUserUsingWebfluxWebclient(@RequestParam long delay) {
         return wc.get()
-        		.uri("/product/?delay={delay}", delay)
+        		.uri("/product?delay={delay}", delay)
         		.retrieve()
         		.bodyToFlux(Product.class);
     }
