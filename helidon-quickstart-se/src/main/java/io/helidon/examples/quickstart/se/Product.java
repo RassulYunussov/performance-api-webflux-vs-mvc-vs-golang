@@ -4,10 +4,10 @@ package io.helidon.examples.quickstart.se;
 import java.math.BigDecimal;
 
 public class Product {
-    private Integer id;
+    private int id;
     private String name;
     private String description;
-    private BigDecimal price;
+    private double price;
 
     public Product() {
     }
@@ -24,18 +24,18 @@ public class Product {
         this.description = description;
     }
 
-    public void setPrice(BigDecimal price) {
+    public void setPrice(double price) {
         this.price = price;
     }
 
-    public Product(Integer id, String name, String description, BigDecimal price) {
+    public Product(Integer id, String name, String description, double price) {
         this.id = id;
         this.name = name;
         this.description = description;
         this.price = price;
     }
 
-    public Integer getId() {
+    public int getId() {
         return id;
     }
 
@@ -47,7 +47,7 @@ public class Product {
         return description;
     }
 
-    public BigDecimal getPrice() {
+    public double getPrice() {
         return price;
     }
 }
