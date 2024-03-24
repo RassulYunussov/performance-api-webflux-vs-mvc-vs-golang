@@ -16,14 +16,41 @@ Success       [ratio]                           100.00%
 Status Codes  [code:count]                      200:30000  
 ```
 
+# on Mac More than 1000RPS gives error on descriptors side (port allocation)
+# running in docker helps to overcome that issue
+
 echo "GET http://localhost:8084/performance-helidon?delay=100" | vegeta attack -duration=60s -rate=1000 | vegeta report
 
 ```
-Requests      [total, rate, throughput]         60000, 1000.02, 531.54
-Duration      [total, attack, wait]             1m0s, 59.999s, 68.009ms
-Latencies     [min, mean, 50, 90, 95, 99, max]  302.958µs, 69.899ms, 100.413ms, 101.958ms, 231.423ms, 408.187ms, 627.344ms
-Bytes In      [total, mean]                     10887448, 181.46
+Requests      [total, rate, throughput]         60000, 1000.02, 998.33
+Duration      [total, attack, wait]             1m0s, 59.999s, 101.256ms
+Latencies     [min, mean, 50, 90, 95, 99, max]  100.457ms, 101.09ms, 100.936ms, 101.375ms, 101.879ms, 103.674ms, 130.981ms
+Bytes In      [total, mean]                     20460000, 341.00
 Bytes Out     [total, mean]                     0, 0.00
-Success       [ratio]                           53.21%
-Status Codes  [code:count]                      0:125  200:31928  500:27947  
+Success       [ratio]                           100.00%
+Status Codes  [code:count]                      200:60000
+```
+
+echo "GET http://localhost:8084/performance-helidon?delay=100" | vegeta attack -duration=60s -rate=2000 | vegeta report
+
+```
+Requests      [total, rate, throughput]         120000, 2000.02, 1996.63
+Duration      [total, attack, wait]             1m0s, 1m0s, 101.63ms
+Latencies     [min, mean, 50, 90, 95, 99, max]  100.354ms, 101.399ms, 101.353ms, 101.59ms, 101.726ms, 104.92ms, 135.186ms
+Bytes In      [total, mean]                     40920000, 341.00
+Bytes Out     [total, mean]                     0, 0.00
+Success       [ratio]                           100.00%
+Status Codes  [code:count]                      200:120000
+```
+
+echo "GET http://localhost:8084/performance-helidon?delay=100" | vegeta attack -duration=60s -rate=4000 | vegeta report
+
+```
+Requests      [total, rate, throughput]         240000, 4000.02, 3993.32
+Duration      [total, attack, wait]             1m0s, 1m0s, 100.614ms
+Latencies     [min, mean, 50, 90, 95, 99, max]  100.312ms, 101.215ms, 101.047ms, 101.42ms, 101.864ms, 107.301ms, 135.086ms
+Bytes In      [total, mean]                     81840000, 341.00
+Bytes Out     [total, mean]                     0, 0.00
+Success       [ratio]                           100.00%
+Status Codes  [code:count]                      200:240000
 ```
