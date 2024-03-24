@@ -2,6 +2,7 @@
 package io.helidon.examples.quickstart.se;
 
 import io.helidon.common.GenericType;
+import io.helidon.http.Status;
 import io.helidon.logging.common.LogConfig;
 import io.helidon.config.Config;
 import io.helidon.webclient.api.WebClient;
@@ -15,6 +16,9 @@ public class Main {
     private static final String DELAY_QUERY_PARAMETER = "delay";
 
     private static final List<Product> products;
+
+    private static final GenericType<List<Product>> responseType = new GenericType<>() {
+    };
     private static final WebClient webClient = WebClient.builder()
             .baseUri("http://localhost:8084")
             .build();
@@ -62,13 +66,15 @@ public class Main {
                 })
                 .get("/performance-helidon", (req, res) -> {
                     final var delayString = req.query().get(DELAY_QUERY_PARAMETER);
-                    final var response = webClient.get()
+                    try (final var response = webClient.get()
                             .path("/product")
                             .queryParam(DELAY_QUERY_PARAMETER, delayString)
-                            .request()
-                            .entity().as(new GenericType<List<Product>>() {
-                            });
-                    res.send(response);
+                            .request()) {
+                        res.send(response.entity().as(responseType));
+                    } catch (RuntimeException e) {
+                        res.status(Status.INTERNAL_SERVER_ERROR_500);
+                        res.send();
+                    }
                 });
     }
 }
