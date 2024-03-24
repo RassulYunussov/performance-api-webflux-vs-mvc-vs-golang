@@ -16,8 +16,10 @@ Success       [ratio]                           100.00%
 Status Codes  [code:count]                      200:30000  
 ```
 
+```
 # on Mac More than 1000RPS gives error on descriptors side (port allocation)
 # running in docker helps to overcome that issue
+```
 
 echo "GET http://localhost:8084/performance-helidon?delay=100" | vegeta attack -duration=60s -rate=1000 | vegeta report
 
