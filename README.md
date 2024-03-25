@@ -1,3 +1,14 @@
+# Synthetic micro-benchmark
+
+The purpose to see the behaviour of different http-servers under high RPS.
+For this moment we compare different java based approaches:
+- tomcat servlet + apache async http client
+- netty approach
+- helidon approach with green threads
+- go
+
+Within each of the projects put vegeta reports produced on my machine MacBook Pro M2
+
 # Spring MVC
 
 http://localhost:8081/performance-mvc/?delay=100
