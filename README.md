@@ -9,6 +9,8 @@ For this moment we compare different java based approaches + go:
 
 Within each of the projects put vegeta reports produced on my machine MacBook Pro M2
 
+More info: https://medium.com/@yunussov/performance-spring-tomcat-mvc-vs-spring-netty-webflux-vs-go-vs-helidon-2dd9d3f0e433
+
 # Spring MVC
 
 http://localhost:8081/performance-mvc/?delay=100
