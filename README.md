@@ -1,7 +1,7 @@
 # Synthetic micro-benchmark
 
 The purpose to see the behaviour of different http-servers under high RPS.
-For this moment we compare different java based approaches:
+For this moment we compare different java based approaches + go:
 - tomcat servlet + apache async http client
 - netty approach
 - helidon approach with green threads
